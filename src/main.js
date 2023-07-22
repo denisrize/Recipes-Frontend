@@ -10,11 +10,14 @@ const router = new VueRouter({
   routes,
 });
 
+import './scss/main.scss'; 
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import {
   FormGroupPlugin,
+  BootstrapVue,
+  IconsPlugin ,
   FormPlugin,
   FormInputPlugin,
   ButtonPlugin,
@@ -24,10 +27,13 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  ProgressPlugin  
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
   FormPlugin,
+  BootstrapVue,
+  IconsPlugin ,
   FormInputPlugin,
   ButtonPlugin,
   CardPlugin,
@@ -36,12 +42,14 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  ProgressPlugin 
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
 axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
+    config.withCredentials = true;
     return config;
   },
   function(error) {
@@ -66,21 +74,22 @@ Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
 
+import { state as storeState, actions as storeActions } from './store.js';
 const shared_data = {
   username: localStorage.username,
   login(username) {
     localStorage.setItem("username", username);
-    this.username = username;
-    console.log("login", this.username);
+    this.username = username; 
   },
   logout() {
-    console.log("logout");
+
+    localStorage.removeItem("lastSearch");
     localStorage.removeItem("username");
     this.username = undefined;
   },
+  state: storeState,
+  actions: storeActions
 };
-console.log(shared_data);
-// Vue.prototype.$root.store = shared_data;
 
 new Vue({
   router,
@@ -88,8 +97,7 @@ new Vue({
     return {
       store: shared_data,
     };
-  },
-  methods: {
+  },  methods: {
     toast(title, content, variant = null, append = false) {
       this.$bvToast.toast(`${content}`, {
         title: `${title}`,

@@ -1,12 +1,12 @@
 <template>
-  <b-container>
-    <h3>
+  <b-container fluid="lg">
+    <h2>
       {{ title }}:
       <slot></slot>
-    </h3>
+    </h2>
     <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r" />
+      <b-col cols="12" v-for="r in recipes" :key="r.id">
+        <RecipePreview class="recipePreview" :recipe="r" :usersRecipe="usersRecipe" :imgSide="imgSide" />
       </b-col>
     </b-row>
   </b-container>
@@ -19,37 +19,59 @@ export default {
   components: {
     RecipePreview
   },
+  data() {
+    return {
+    }
+  },
   props: {
     title: {
       type: String,
       required: true
+    },
+    endPoint: {
+      type: String,
+      default: null
+    },
+    number: {
+      type: String,
+      default: '3'
+    },
+    recipes: {
+      type: Array,
+      default: null
+    },
+    imgSide: {
+      type: String,
+      default: 'top'
+    },
+    usersRecipe: {
+      type: Boolean,
+      default: false
     }
   },
-  data() {
-    return {
-      recipes: []
-    };
-  },
   mounted() {
-    this.updateRecipes();
+    if (!this.recipes && !this.usersRecipe) {
+      this.updateRecipes();
+    }
   },
   methods: {
     async updateRecipes() {
       try {
         const response = await this.axios.get(
-          this.$root.store.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
+          this.$root.store.state.server_domain + this.endPoint,
+          {
+            params: { number: this.number }
+          }
         );
 
-        // console.log(response);
-        const recipes = response.data.recipes;
-        this.recipes = [];
-        this.recipes.push(...recipes);
-        // console.log(this.recipes);
+        this.recipes = response.data;
+        // this.recipes = [];
+        // this.recipes.push(...recipes);
+
       } catch (error) {
         console.log(error);
       }
-    }
+    },
   }
 };
 </script>

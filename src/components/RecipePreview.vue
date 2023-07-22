@@ -1,141 +1,131 @@
 <template>
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview"
-  >
-    <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-    </div>
-    <div class="recipe-footer">
-      <div :title="recipe.title" class="recipe-title">
-        {{ recipe.title }}
+<router-link :to="usersRecipe ? { name: 'myRecipeFull', params: { recipeId: recipe.id } } : { name: 'recipe', params: { recipeId: recipe.id } }"
+  @click.native="addToLastVieW" class="links">
+    <b-card :img-src="recipe.image" img-alt="Card image" class="mb-3 w-80 "
+      :img-top="imgSide === 'top'" :img-left="imgSide === 'left'">
+
+      <b-card-body class="recipe-preview">
+
+        <b-card-title :title="recipe.title" class="mb-1">
+          {{ recipe.title }}
+        </b-card-title>
+
+        <b-card-text>
+          <b-row class="mb-2">
+            <b-col cols="2">
+            </b-col>
+            <b-col cols="8">
+              <div class="d-flex justify-content-center">
+                <div v-if="recipe.vegan" >
+                  <img class="icon info" src="@/assets/icons/vegan.png" alt="vegan">
+                </div>
+                <div v-if="recipe.glutenFree">
+                  <img class="icon info" src="@/assets/icons/gluten-free.png" alt="gluten-free">
+                </div>
+                <div v-if="recipe.viewed">
+                  <img class="icon info" src="@/assets/icons/view.png" alt="viewed">
+                </div>
+                <div v-if="recipe.favorite">
+                  <img class="icon info" src="@/assets/icons/heart.png" alt="favorite">
+                </div>
+              </div>
+            </b-col>
+            <b-col cols="2">
+            </b-col>
+          </b-row>
+          <b-row class="justify-content-center ">
+            <b-col cols="6" class="text-center">
+              <img class="icon" src="@/assets/icons/wall-clock.png" alt="clock">
+              {{ recipe.readyInMinutes }} minutes
+            </b-col>
+            <b-col cols="6" class="text-center">
+              <span v-for="(star, index) in stars" :key="index">
+                <img v-if="star === 'full'" class="icon" src="@/assets/icons/star.png" :alt="star + ' star'">
+                <img v-else-if="star === 'half'" class="icon" src="@/assets/icons/half-star.png" :alt="star + ' star'">
+                <img v-else class="icon" src="@/assets/icons/empty-star.png" :alt="star + ' star'">
+              </span>
+          </b-col >
+          </b-row>
+        </b-card-text>
+
+      </b-card-body>
+      <div class="overlay">
+        <b-button variant="primary" class="details-button">More Details</b-button>
       </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
-      </ul>
-    </div>
+    </b-card>
+
   </router-link>
 </template>
 
 <script>
 export default {
-  mounted() {
-    this.axios.get(this.recipe.image).then((i) => {
-      this.image_load = true;
-    });
-  },
+  // mounted() { v-if="image_load"
+  //   let img = new Image();
+  //   img.onload = () => {
+  //     this.image_load = true;
+  //   };
+  //   img.src = this.recipe.image;
+  // },
   data() {
     return {
       image_load: false
     };
   },
+  methods: {
+    async addToLastVieW() {
+      try {
+        if (!this.usersRecipe) {
+          const response = await this.axios.post(
+            this.$root.store.state.server_domain + "/users/last-view",
+            {
+              recipeId: this.recipe.id
+            }
+
+          );
+        }
+      } catch (err) {
+        console.log(err.response);
+      }
+    }
+  },
+  computed: {
+    stars() {
+    let fullStars = Math.floor(this.recipe.aggregateLikes / 10);
+    let halfStar = this.recipe.aggregateLikes % 10 >= 5;
+
+    // Ensure that the total number of stars (full and half) does not exceed 5
+    if (fullStars >= 5) {
+      fullStars = 5;
+      halfStar = false; // No half star if there are already 5 full stars
+    } 
+    const starsArray = Array(fullStars).fill('full');
+    if (halfStar) {
+      starsArray.push('half');
+    }
+        // Add empty stars to the array until its length is 5
+    while (starsArray.length < 5) {
+      starsArray.push('empty');
+    }
+    return starsArray;
+  },
+  },
   props: {
     recipe: {
       type: Object,
       required: true
+    },
+    imgSide: {
+      type: String,
+      default: 'top' // default value is 'top'
+    },
+    usersRecipe: {
+      type: Boolean,
+      default: false
     }
-
-    // id: {
-    //   type: Number,
-    //   required: true
-    // },
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
-    // readyInMinutes: {
-    //   type: Number,
-    //   required: true
-    // },
-    // image: {
-    //   type: String,
-    //   required: true
-    // },
-    // aggregateLikes: {
-    //   type: Number,
-    //   required: false,
-    //   default() {
-    //     return undefined;
-    //   }
-    // }
   }
 };
 </script>
 
-<style scoped>
-.recipe-preview {
-  display: inline-block;
-  width: 90%;
-  height: 100%;
-  position: relative;
-  margin: 10px 10px;
-}
-.recipe-preview > .recipe-body {
-  width: 100%;
-  height: 200px;
-  position: relative;
-}
+<style lang="scss">
 
-.recipe-preview .recipe-body .recipe-image {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-  display: block;
-  width: 98%;
-  height: auto;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-}
-
-.recipe-preview .recipe-footer {
-  width: 100%;
-  height: 50%;
-  overflow: hidden;
-}
-
-.recipe-preview .recipe-footer .recipe-title {
-  padding: 10px 10px;
-  width: 100%;
-  font-size: 12pt;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-}
-
-.recipe-preview .recipe-footer ul.recipe-overview {
-  padding: 5px 10px;
-  width: 100%;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -o-box-flex: 1;
-  box-flex: 1;
-  -webkit-flex: 1 auto;
-  -ms-flex: 1 auto;
-  flex: 1 auto;
-  table-layout: fixed;
-  margin-bottom: 0px;
-}
-
-.recipe-preview .recipe-footer ul.recipe-overview li {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -o-box-flex: 1;
-  -ms-box-flex: 1;
-  box-flex: 1;
-  -webkit-flex-grow: 1;
-  flex-grow: 1;
-  width: 90px;
-  display: table-cell;
-  text-align: center;
-}
 </style>

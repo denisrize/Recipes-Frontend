@@ -90,7 +90,7 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="reset" variant="danger"  style="background-color: #DD1C1A;">Reset</b-button>
       <b-button
         type="submit"
         variant="primary"
@@ -182,8 +182,7 @@ export default {
     async Register() {
       try {
         const response = await this.axios.post(
-          // "https://test-for-3-2.herokuapp.com/user/Register",
-          this.$root.store.server_domain + "/Register",
+          this.$root.store.state.server_domain + "/Register",
 
           {
             username: this.form.username,

@@ -1,0 +1,190 @@
+// APP - NAVBAR,FOOTER AND MAIN PAGE
+.main-container {
+    background-color: rgba(255, 255, 255, 0.8); 
+    background-image:url('~@/assets/menu1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px; /* Rounded corners */
+    margin: 0 auto;
+    max-width: 1200px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+.icon {
+    width: 24px;
+  }
+.footer {
+    border-top: 4px solid #F0C808; 
+    padding: 20px 0;
+    background-color: #e7e7e7;
+    font-family: 'Architects Daughter', sans-serif; 
+
+}
+#app a:hover{
+    text-decoration: none;
+}
+.link {
+    color: black;
+    font-family: 'Architects Daughter', sans-serif; 
+    font-size: 150%;
+ }
+.link:hover {
+    color: white; 
+    text-shadow: 0 0 1px currentColor;
+    text-decoration: none;
+ }
+.logo {
+    max-width: 100px;
+}
+.brand-link{
+    color: black;
+}
+.brand-link:hover {
+    color: black;
+    text-decoration: none;
+ }
+#app button {
+    margin-top: 1%;
+    background-color: #086788;
+    border-color: #086788;
+}
+#app button:hover {
+    background-color: #06AED5; 
+    border-color: #06AED5; 
+}
+#app {
+    font-family: 'Architects Daughter', sans-serif; 
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.about-background {
+    background-image:url('~@/assets/ham-y.jpg');
+    background-size: cover;
+    background-position: center;
+}
+  
+.home-background {
+    background-image:url('~@/assets/chips.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.custom-navbar {
+    background-color: #F0C808;
+    margin-bottom: 20px;
+}
+.carousel-item {
+    border: 10px solid black;
+    // border-radius: 50%;
+}
+.main-comp {
+    flex-grow: 1;
+}
+#nav {
+padding: 30px;
+}
+#nav a.router-link-exact-active {
+color: #F0C808;
+}
+.flex-box {
+    display: flex;
+    align-items: center;
+}
+.flex-box h3 {
+    padding-top: 5%; 
+}
+h3 {
+    font-family: 'Pacifico', sans-serif; 
+}
+h1 {
+    font-family: 'Sue Ellen Francisco', sans-serif; 
+    font-weight: bold !important;
+
+}
+h2 {
+    font-family: 'Sue Ellen Francisco', sans-serif; 
+    text-decoration: underline;
+    font-size: 3rem !important;
+}
+h4{
+    font-weight: bold !important;
+ 
+}
+label {
+    font-size: 1.5rem !important;
+    margin-right: 1%;
+    font-weight: bold !important;
+}
+// Card
+.card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+    border: 5px solid wheat !important;
+
+}
+.card:hover {
+    text-decoration: none;
+}
+.card-body {
+    border: 2px solid wheat;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.205);
+    font-family: 'Architects Daughter', sans-serif; 
+    background-color: wheat;
+    color: white;
+    font-weight: bold;
+    background-image:url('~@/assets/menu2.jpg') !important;
+    background-size: cover;
+    background-position: center;
+
+}
+.card-body:hover {
+    text-decoration: none;
+
+}
+.card-body:hover .overlay {
+    opacity: 1;
+}
+.overlay {
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+height: 100%;
+width: 100%;
+opacity: 0;
+transition: .1s ease;
+background-color: rgba(0, 0, 0.4, 0.4);
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.details-button {
+display: none;
+}
+
+.overlay:hover .details-button {
+display: block;
+}
+// recipe page
+.recipe-body {
+    color: rgb(218, 218, 218);
+    font-size: 150%;
+    padding: 2%;
+}
+.img-frame {
+    border: 10px solid #086788; 
+    border-radius: 30%; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.info {
+    margin: 5px;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .05s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+}

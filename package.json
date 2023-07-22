@@ -6,8 +6,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
+    "bootstrap-icons": "^1.10.5",
     "bootstrap-vue": "^2.15.0",
     "core-js": "^3.6.5",
     "sass": "^1.50.0",
@@ -17,10 +19,10 @@
     "vuelidate": "^0.7.5"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.4.0",
-    "@vue/cli-plugin-eslint": "~4.4.0",
-    "@vue/cli-plugin-router": "~4.4.0",
-    "@vue/cli-service": "~4.4.0",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",

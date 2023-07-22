@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../template-Assignment-3.2-main"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "template-Assignment-3.2-main"
+	}
+}
